@@ -1,7 +1,18 @@
 export default [
   'strapi::logger',
   'strapi::errors',
-  'strapi::security',
+    {
+
+
+      name: 'strapi::security',
+       config: {
+         contentSecurityPolicy: {
+               directives: {
+                   frameAncestors: ['http://localhost:*', 'self']
+                 }
+           }
+      }
+ },
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',
