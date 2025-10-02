@@ -1,0 +1,115 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: sandbox
+  demands: agent.name -equals vm-devops-runner-sandbox
+
+# Parameters for manual selection
+parameters:
+  - name: environment
+    displayName: 'Target Environment'
+    type: string
+    default: 'sandbox'
+    values:
+      - sandbox
+      - test
+      - stage
+      - prod
+
+variables:
+  - group: acr_secret_sandbox
+
+  # - ${{ if eq(parameters.environment, 'test') }}:
+  #     - group: acr_secret_test
+  # - ${{ if eq(parameters.environment, 'stage') }}:
+  #     - group: acr_secret_stg
+  # - ${{ if eq(parameters.environment, 'prod') }}:
+  #     - group: acr_secret_prod
+
+  - name: sourceImageName
+    value: 'aiab-strapi'
+  # - name: chartname
+  #   value: 'govgpt'
+
+# resources:
+#   repositories:
+#     - repository: govgpt-gitops
+#       type: git
+#       name: AIFactory/govgpt-gitops
+#       ref: refs/heads/main
+
+
+steps:
+- checkout: self
+# - checkout: govgpt-gitops
+
+# Login to Azure Container Registry manually using username and password
+- script: |
+    echo $(dockerRegistryPassword) | docker login $(dockerRegistryUrl) -u $(dockerRegistryUsername) --password-stdin
+  displayName: 'Authenticate to ACR'
+
+# Build Docker Image
+- script: |
+    ls
+    cd AIAB-strapi
+    ls
+    docker build -t $(dockerRegistryUrl)/$(sourceImageName):latest -t $(dockerRegistryUrl)/$(sourceImageName):$(Build.BuildId) -f Dockerfile .
+  displayName: 'Build Docker Image'
+
+# Push Docker Image to ACR
+- script: |
+    ls
+    docker push $(dockerRegistryUrl)/$(sourceImageName):latest
+    docker push $(dockerRegistryUrl)/$(sourceImageName):$(Build.BuildId)
+  displayName: 'Push Docker Image to ACR'
+
+- script: |
+    echo "Build ID: $(Build.BuildId)"
+  displayName: 'Print Build ID'  
+
+# Remove image after push
+- script: |
+    ls
+    docker rmi $(dockerRegistryUrl)/$(sourceImageName):latest
+    docker rmi $(dockerRegistryUrl)/$(sourceImageName):$(Build.BuildId)
+  displayName: 'Removed image'
+
+
+
+# - ${{ if eq(parameters.environment, 'sandbox') }}:
+#   - script: |
+#       echo "Updating image tag in sandbox.yaml to $(Build.BuildId)"
+      
+#       # Navigate to the GitOps repository directory
+#       cd govgpt-gitops
+      
+#       # Configure Git with proper authentication using System.AccessToken
+#       git config user.name "Azure Pipeline"
+#       git config user.email "ishu.khani@dge.gov.ae"
+      
+#       # Set up the remote URL with authentication token
+#       git remote set-url origin "https://$(System.AccessToken)@dev.azure.com/ADGOV-AI/AIFactory/_git/govgpt-gitops"
+      
+#       # Pull latest changes first
+#       git pull origin main
+      
+#       # Navigate to helm charts directory
+#       cd helm-charts/$(chartname)
+#       ls
+      
+#       # Update the image tag
+#       yq e '.image.tag = "$(Build.BuildId)"' -i sandbox.yaml
+      
+#       # Add and commit changes
+#       git add sandbox.yaml
+#       git commit -m "Automation: bump ${chartname} tag to $(Build.BuildId)"
+      
+#       # Push changes
+#       git push origin HEAD:main
+      
+#     displayName: 'Update Helm image tag in GitOps repo'
+#     env:
+#       SYSTEM_ACCESSTOKEN: $(System.AccessToken)
