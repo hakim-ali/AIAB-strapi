@@ -37,5 +37,13 @@
   "strapi": {
     "uuid": "22a8c2d5-0d0a-44fe-a2d3-a50f01f96aff",
     "installId": "b624e57bddb494d75420cfc2194e8d2a4f3e2839620c85d09b866f6374fe0dbf"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "@swc/core",
+      "core-js-pure"
+    ]
   }
 }
