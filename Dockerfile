@@ -1,19 +1,22 @@
 FROM node:22-alpine
 
+# Native build deps for sharp/esbuild/swc on Alpine
 RUN apk add --no-cache python3 make g++ libc6-compat
+
 WORKDIR /app
 
-RUN npm i -g pnpm@10.17.1
+# 1) Install deps with npm (dev deps included for admin build)
+#    Make sure you have a package-lock.json in the repo.
+COPY package.json package-lock.json ./
+RUN npm ci
 
-COPY package.json pnpm-lock.yaml ./
-
-# First install (scripts will be skipped), then approve, then rebuild them
-RUN pnpm install --frozen-lockfile || true \
- && pnpm approve-builds -y esbuild sharp @swc/core core-js-pure \
- && pnpm rebuild -r
-
+# 2) Copy source and build Strapi admin
 COPY . .
-RUN pnpm build
+RUN npm run build
+
+# 3) Optional: slim the image by removing dev deps after build
+RUN npm prune --omit=dev
 
 EXPOSE 1337
-CMD ["pnpm","start"]
+ENV NODE_ENV=production
+CMD ["npm", "start"]
