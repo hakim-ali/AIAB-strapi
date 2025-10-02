@@ -14,10 +14,10 @@
     "thumbnail": {
       "type": "media",
       "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
-        "files",
-        "videos"
+        "files"
       ]
     },
     "title": {
@@ -33,12 +33,12 @@
       "required": false
     },
     "summary": {
-      "type": "string",
+      "type": "text",
       "required": true
     },
     "content": {
       "type": "richtext",
-      "required": true
+      "required": false
     },
     "category": {
       "type": "enumeration",
@@ -54,6 +54,17 @@
       "relation": "manyToMany",
       "target": "api::article-tag.article-tag",
       "inversedBy": "articles"
+    },
+    "secondary_article_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-tag.article-tag",
+      "inversedBy": "secondary_articles_tags"
+    },
+    "article_img_tag": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article-tag.article-tag"
     }
   }
 }

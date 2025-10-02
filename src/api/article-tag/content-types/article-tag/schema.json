@@ -25,6 +25,26 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "mappedBy": "article_tags"
+    },
+    "color": {
+      "type": "enumeration",
+      "required": false,
+      "default": "primary",
+      "enum": [
+        "primary",
+        "success",
+        "error",
+        "warning",
+        "info",
+        "purple",
+        "success-light"
+      ]
+    },
+    "secondary_articles_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "secondary_article_tags"
     }
   }
 }

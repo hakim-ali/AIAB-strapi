@@ -442,6 +442,18 @@ export interface ApiArticleTagArticleTag extends Struct.CollectionTypeSchema {
   };
   attributes: {
     articles: Schema.Attribute.Relation<'manyToMany', 'api::article.article'>;
+    color: Schema.Attribute.Enumeration<
+      [
+        'primary',
+        'success',
+        'error',
+        'warning',
+        'info',
+        'purple',
+        'success-light',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'primary'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -453,6 +465,10 @@ export interface ApiArticleTagArticleTag extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    secondary_articles_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::article.article'
+    >;
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -473,6 +489,10 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    article_img_tag: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::article-tag.article-tag'
+    >;
     article_tags: Schema.Attribute.Relation<
       'manyToMany',
       'api::article-tag.article-tag'
@@ -482,7 +502,7 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       ['WHITE_PAPER', 'BOILERPLATE_SOLUTION', 'USE_CASE_LIBRARY']
     > &
       Schema.Attribute.Required;
-    content: Schema.Attribute.RichText & Schema.Attribute.Required;
+    content: Schema.Attribute.RichText;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -494,8 +514,13 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     publishedDate: Schema.Attribute.Date & Schema.Attribute.Required;
-    summary: Schema.Attribute.String & Schema.Attribute.Required;
-    thumbnail: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
+    secondary_article_tags: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::article-tag.article-tag'
+    >;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    thumbnail: Schema.Attribute.Media<'images' | 'files'> &
+      Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
