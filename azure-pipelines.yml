@@ -22,12 +22,12 @@ parameters:
 variables:
   - group: acr_secret_sandbox
 
-  - ${{ if eq(parameters.environment, 'test') }}:
-      - group: acr_secret_test
-  - ${{ if eq(parameters.environment, 'stage') }}:
-      - group: acr_secret_stg
-  - ${{ if eq(parameters.environment, 'prod') }}:
-      - group: acr_secret_prod
+  # - ${{ if eq(parameters.environment, 'test') }}:
+  #     - group: acr_secret_test
+  # - ${{ if eq(parameters.environment, 'stage') }}:
+  #     - group: acr_secret_stg
+  # - ${{ if eq(parameters.environment, 'prod') }}:
+  #     - group: acr_secret_prod
 
   - name: sourceImageName
     value: 'strapi'
@@ -54,7 +54,7 @@ steps:
 # Build Docker Image
 - script: |
     ls
-    cd govgpt
+    cd AIAB-strapi
     ls
     docker build -t $(dockerRegistryUrl)/$(sourceImageName):latest -t $(dockerRegistryUrl)/$(sourceImageName):$(Build.BuildId) -f Dockerfile .
   displayName: 'Build Docker Image'
