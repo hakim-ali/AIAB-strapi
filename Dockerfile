@@ -1,22 +1,30 @@
 FROM node:22-alpine
 
-# Native build deps for sharp/esbuild/swc on Alpine
+# Native deps for esbuild/sharp/swc on Alpine
 RUN apk add --no-cache python3 make g++ libc6-compat
 
 WORKDIR /app
 
-# 1) Install deps with npm (dev deps included for admin build)
-#    Make sure you have a package-lock.json in the repo.
-COPY package.json package-lock.json ./
-RUN npm ci
+# Use a stable pnpm (matches your logs)
+RUN npm i -g pnpm@10.17.1
 
-# 2) Copy source and build Strapi admin
+# Copy manifests first for better layer caching
+COPY package.json pnpm-lock.yaml ./
+
+# Create pnpm allowlist so install scripts for these packages can run in CI
+# (avoids interactive `pnpm approve-builds`)
+RUN printf '{\n  "allowedPackages": {\n    "@swc/core": true,\n    "esbuild": true,\n    "sharp": true,\n    "core-js-pure": true\n  }\n}\n' > .pnpm-allow-scripts
+
+# Install deps (dev deps included so admin build succeeds)
+RUN pnpm install --frozen-lockfile
+
+# Bring in the rest of the source and build Strapi admin
 COPY . .
-RUN npm run build
+RUN pnpm build
 
-# 3) Optional: slim the image by removing dev deps after build
-RUN npm prune --omit=dev
+# Slim runtime: keep only production deps
+RUN pnpm prune --prod
 
 EXPOSE 1337
 ENV NODE_ENV=production
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
