@@ -39,11 +39,9 @@
     "installId": "b624e57bddb494d75420cfc2194e8d2a4f3e2839620c85d09b866f6374fe0dbf"
   },
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp",
-      "@swc/core",
-      "core-js-pure"
-    ]
+    "supportedArchitectures": {
+      "os": ["linux"],
+      "cpu": ["x64"]
+    }
   }
 }
