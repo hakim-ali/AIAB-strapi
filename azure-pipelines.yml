@@ -30,7 +30,7 @@ variables:
   #     - group: acr_secret_prod
 
   - name: sourceImageName
-    value: 'strapi'
+    value: 'aiab-strapi'
   # - name: chartname
   #   value: 'govgpt'
 
