@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_requests",
+  "info": {
+    "singularName": "contact-request",
+    "pluralName": "contact-requests",
+    "displayName": "ContactRequest"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "first_name": {
+      "type": "string",
+      "required": true
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "contact_number": {
+      "type": "string",
+      "required": true
+    },
+    "department": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::department.department"
+    },
+    "message": {
+      "type": "boolean",
+      "required": true
+    },
+    "discussion_topic": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "GENERAL_INQUIRY",
+        "AI_CONSULTING",
+        "PROJECT_SPECIFIC"
+      ]
+    },
+    "service": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "AI_INFRASTRUCTURE",
+        "AI_PLATFORM_AND_TOOLS"
+      ]
+    }
+  }
+}

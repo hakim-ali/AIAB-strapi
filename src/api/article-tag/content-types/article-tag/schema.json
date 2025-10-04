@@ -45,6 +45,12 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "mappedBy": "secondary_article_tags"
+    },
+    "ai_agents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ai-agent.ai-agent",
+      "mappedBy": "article_tags"
     }
   }
 }

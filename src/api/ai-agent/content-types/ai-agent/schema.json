@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ai_agents",
+  "info": {
+    "singularName": "ai-agent",
+    "pluralName": "ai-agents",
+    "displayName": "AiAgent"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "summary": {
+      "type": "text",
+      "required": true
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "article_tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article-tag.article-tag",
+      "inversedBy": "ai_agents"
+    }
+  }
+}
