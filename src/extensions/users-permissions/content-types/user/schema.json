@@ -81,6 +81,10 @@
     },
     "last_name": {
       "type": "string"
+    },
+    "country_code": {
+      "type": "string",
+      "required": true
     }
   }
 }

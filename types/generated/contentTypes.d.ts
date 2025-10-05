@@ -509,6 +509,7 @@ export interface ApiContactRequestContactRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'contact_requests';
   info: {
+    description: '';
     displayName: 'ContactRequest';
     pluralName: 'contact-requests';
     singularName: 'contact-request';
@@ -518,6 +519,7 @@ export interface ApiContactRequestContactRequest
   };
   attributes: {
     contact_number: Schema.Attribute.String & Schema.Attribute.Required;
+    country_code: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -531,6 +533,7 @@ export interface ApiContactRequestContactRequest
       Schema.Attribute.Required;
     email: Schema.Attribute.String & Schema.Attribute.Required;
     first_name: Schema.Attribute.String & Schema.Attribute.Required;
+    job_title: Schema.Attribute.String;
     last_name: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -538,12 +541,9 @@ export interface ApiContactRequestContactRequest
       'api::contact-request.contact-request'
     > &
       Schema.Attribute.Private;
-    message: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    message: Schema.Attribute.Text & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    service: Schema.Attribute.Enumeration<
-      ['AI_INFRASTRUCTURE', 'AI_PLATFORM_AND_TOOLS']
-    > &
-      Schema.Attribute.Required;
+    service: Schema.Attribute.Relation<'oneToOne', 'api::service.service'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -632,6 +632,34 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.Text & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiServiceService extends Struct.CollectionTypeSchema {
+  collectionName: 'services';
+  info: {
+    displayName: 'Service';
+    pluralName: 'services';
+    singularName: 'service';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service.service'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1099,6 +1127,7 @@ export interface PluginUsersPermissionsUser
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     contact_number: Schema.Attribute.String;
+    country_code: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1160,6 +1189,7 @@ declare module '@strapi/strapi' {
       'api::department.department': ApiDepartmentDepartment;
       'api::environment.environment': ApiEnvironmentEnvironment;
       'api::faq.faq': ApiFaqFaq;
+      'api::service.service': ApiServiceService;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

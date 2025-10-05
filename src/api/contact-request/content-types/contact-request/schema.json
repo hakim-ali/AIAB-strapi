@@ -4,7 +4,8 @@
   "info": {
     "singularName": "contact-request",
     "pluralName": "contact-requests",
-    "displayName": "ContactRequest"
+    "displayName": "ContactRequest",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -31,10 +32,6 @@
       "relation": "oneToOne",
       "target": "api::department.department"
     },
-    "message": {
-      "type": "boolean",
-      "required": true
-    },
     "discussion_topic": {
       "type": "enumeration",
       "required": true,
@@ -44,13 +41,21 @@
         "PROJECT_SPECIFIC"
       ]
     },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "country_code": {
+      "type": "string",
+      "required": true
+    },
+    "job_title": {
+      "type": "string"
+    },
     "service": {
-      "type": "enumeration",
-      "required": true,
-      "enum": [
-        "AI_INFRASTRUCTURE",
-        "AI_PLATFORM_AND_TOOLS"
-      ]
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::service.service"
     }
   }
 }
