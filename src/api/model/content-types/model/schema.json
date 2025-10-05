@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "models",
+  "info": {
+    "singularName": "model",
+    "pluralName": "models",
+    "displayName": "Model",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "model_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-type.model-type"
+    }
+  }
+}

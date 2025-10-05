@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "resource_requests",
+  "info": {
+    "singularName": "resource-request",
+    "pluralName": "resource-requests",
+    "displayName": "ResourceRequest"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "project_name": {
+      "type": "string",
+      "required": true
+    },
+    "resource_type": {
+      "type": "enumeration",
+      "enum": [
+        "GPU",
+        "TPU",
+        "MAAS"
+      ]
+    },
+    "project_start_date": {
+      "type": "date",
+      "required": true
+    },
+    "project_end_date": {
+      "type": "date",
+      "required": true
+    },
+    "use_case_description": {
+      "type": "text",
+      "required": true
+    },
+    "business_justification": {
+      "type": "string",
+      "required": true
+    },
+    "request_state": {
+      "type": "enumeration",
+      "enum": [
+        "SUBMITTED",
+        "APPROVED",
+        "REJECTED"
+      ],
+      "default": "SUBMITTED"
+    },
+    "additionalData": {
+      "type": "json"
+    },
+    "requested_by": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    }
+  }
+}

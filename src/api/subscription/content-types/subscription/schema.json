@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subscriptions",
+  "info": {
+    "singularName": "subscription",
+    "pluralName": "subscriptions",
+    "displayName": "Subscription",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "subscribed",
+        "unsubscribed",
+        "bounced"
+      ]
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
