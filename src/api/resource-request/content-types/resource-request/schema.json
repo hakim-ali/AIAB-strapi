@@ -4,7 +4,8 @@
   "info": {
     "singularName": "resource-request",
     "pluralName": "resource-requests",
-    "displayName": "ResourceRequest"
+    "displayName": "ResourceRequest",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,7 +19,7 @@
       "type": "enumeration",
       "enum": [
         "GPU",
-        "TPU",
+        "TPM",
         "MAAS"
       ]
     },
@@ -43,17 +44,18 @@
       "enum": [
         "SUBMITTED",
         "APPROVED",
-        "REJECTED"
+        "REJECTED",
+        "INREVIEW"
       ],
       "default": "SUBMITTED"
     },
-    "additionalData": {
+    "additional_data": {
       "type": "json"
     },
     "requested_by": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "admin::user"
+      "target": "plugin::users-permissions.user"
     }
   }
 }

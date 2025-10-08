@@ -701,6 +701,7 @@ export interface ApiResourceRequestResourceRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'resource_requests';
   info: {
+    description: '';
     displayName: 'ResourceRequest';
     pluralName: 'resource-requests';
     singularName: 'resource-request';
@@ -709,7 +710,7 @@ export interface ApiResourceRequestResourceRequest
     draftAndPublish: true;
   };
   attributes: {
-    additionalData: Schema.Attribute.JSON;
+    additional_data: Schema.Attribute.JSON;
     business_justification: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -725,11 +726,14 @@ export interface ApiResourceRequestResourceRequest
     project_start_date: Schema.Attribute.Date & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     request_state: Schema.Attribute.Enumeration<
-      ['SUBMITTED', 'APPROVED', 'REJECTED']
+      ['SUBMITTED', 'APPROVED', 'REJECTED', 'INREVIEW']
     > &
       Schema.Attribute.DefaultTo<'SUBMITTED'>;
-    requested_by: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
-    resource_type: Schema.Attribute.Enumeration<['GPU', 'TPU', 'MAAS']>;
+    requested_by: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    resource_type: Schema.Attribute.Enumeration<['GPU', 'TPM', 'MAAS']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
