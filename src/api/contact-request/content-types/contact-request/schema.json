@@ -14,18 +14,22 @@
   "attributes": {
     "first_name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "last_name": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {}
     },
     "email": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "contact_number": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "department": {
       "type": "relation",
@@ -39,18 +43,22 @@
         "GENERAL_INQUIRY",
         "AI_CONSULTING",
         "PROJECT_SPECIFIC"
-      ]
+      ],
+      "pluginOptions": {}
     },
     "message": {
       "type": "text",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "country_code": {
       "type": "string",
-      "required": true
+      "required": true,
+      "pluginOptions": {}
     },
     "job_title": {
-      "type": "string"
+      "type": "string",
+      "pluginOptions": {}
     },
     "service": {
       "type": "relation",
