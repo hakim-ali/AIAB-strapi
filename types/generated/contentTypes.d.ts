@@ -964,7 +964,8 @@ export interface ApiSubscriptionSubscription
     publishedAt: Schema.Attribute.DateTime;
     state: Schema.Attribute.Enumeration<
       ['subscribed', 'unsubscribed', 'bounced']
-    >;
+    > &
+      Schema.Attribute.DefaultTo<'subscribed'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
