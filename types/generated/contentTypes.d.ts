@@ -890,6 +890,9 @@ export interface ApiResourceRequestResourceRequest
       'plugin::users-permissions.user'
     >;
     resource_type: Schema.Attribute.Enumeration<['GPU', 'TPM', 'MAAS']>;
+    ticketId: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

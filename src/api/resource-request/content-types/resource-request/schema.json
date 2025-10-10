@@ -56,6 +56,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "ticketId": {
+      "type": "integer",
+      "required": true,
+      "unique": true
     }
   }
 }
